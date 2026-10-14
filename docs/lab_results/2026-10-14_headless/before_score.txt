@@ -1,0 +1,13 @@
+== before (~/harness-lab/before/sql/schema.sql)
+  [PASS] 테이블명 snake_case (apt_trade)
+  [PASS] 식별자에 한글 없음
+  [FAIL] 메인 테이블명 fact_apt_trade
+  [FAIL] PK가 trade_id
+  [FAIL] region_code가 문자열 타입(TEXT/VARCHAR/CHAR)
+  [FAIL] 금액 컬럼 deal_amount_krw (BIGINT/INTEGER)
+  [FAIL] 면적 컬럼 exclusive_area_sqm
+  [FAIL] 단위 없는 금액/면적 컬럼 없음
+  [PASS] 계약일 deal_date DATE 타입
+  [FAIL] 인덱스 ① region_code 선두 + deal_date 포함
+  [FAIL] 인덱스 ② 면적 컬럼 선두 (exclusive_area_sqm 또는 면적대)
+  -> 점수: 3 / 11
