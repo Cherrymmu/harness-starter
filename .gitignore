@@ -2,6 +2,7 @@
 .env
 .env/
 .env.aws
+.env.secret
 *.pem
 *accessKeys*.csv
 *credentials*
