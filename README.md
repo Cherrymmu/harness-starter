@@ -1,3 +1,9 @@
+> **정답본(강사·교수용, 학생 배포 금지)** — 학생용 `apt-dashboard-starter`에 수업 중 학생이 만드는 하네스 구성 요소의 정답을 더한 것입니다.
+> - `CLAUDE.md`, `.claude/`(rules·hooks·agents·settings.json), `sql/schema.sql` — 정답 하네스 (2026-10-29 실데이터로 검증한 trade_id 규칙 포함)
+> - `scripts/score_schema.sh` — Before/After 채점기(11개 항목), `scripts/make_lab.sh` — Before/After 실습 폴더 생성, `scripts/metabase_setup.py` — 대시보드 자동 생성(강남구 아파트 매매 대시보드: 월별 평균 거래가, 전용면적대별 평균 거래가 추이, 법정동 필터)
+> - `metabase/` — Metabase 한국어 문구 교체 이미지(로그인·대시보드 화면 118개 문구, 학생용과 같음)
+> - `docs/before_after_lab.md`, `docs/lab_results/` — 강사 사전 실행 결과(2026-10-14 Claude, 2026-10-29 무료 모델)
+
 # 아파트 실거래가 데이터 파이프라인과 대시보드 구현 — 실습 스타터
 
 ## 개요

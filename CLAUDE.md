@@ -12,6 +12,11 @@
 1. 법정동·계약년월별 평균 거래가 조회
 2. 전용면적대별(60㎡ 이하 / 60~85㎡ / 85㎡ 초과) 시세 추이 조회
 
+## 작업 규칙
+- 응답·코드 주석·문서는 한국어로 쓴다. 한국어 문장에 다른 언어 문자(일본어·중국어 한자 등)를 섞지 않는다. 식별자와 명령어는 영어 그대로 둔다
+- 테이블·컬럼·인덱스를 만들 때는 `.claude/rules/naming.md`를 먼저 읽고 그대로 따른다. 규칙끼리 충돌하거나 데이터가 유실될 수 있는 정의를 발견하면 따르기 전에 먼저 알린다
+- 스키마를 만들면 Access Pattern 두 개가 각각 어떤 인덱스를 쓰는지 한 줄씩 설명한다
+
 ## DB 선택 이유
 PostgreSQL. 대시보드 도구(Metabase)가 관계형 DB 네이티브 커넥터를 쓰기 때문에 DynamoDB보다 복잡도가 낮다. 관계형 테이블 구조가 입문자에게 가장 빠르게 이해된다.
 
@@ -20,5 +25,6 @@ PostgreSQL. 대시보드 도구(Metabase)가 관계형 DB 네이티브 커넥터
 - AWS 트랙(사전 준비 완료자만): RDS `db.t3.micro`, 프리티어
 
 ## 참고 문서
-- 실행 방법: `docs/run.md`
-- Before/After 실습 결과와 채점 기준: `docs/before_after_lab.md`
+- 수업 전체 맥락: `../../01_vscode_claude_code_lesson_plan.md`
+- 이 빌드 작업 진행 상황: `../c_code_status/STATUS.md`
+- AWS 사전 준비: `docs/aws_preclass_setup.md`
