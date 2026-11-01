@@ -10,7 +10,7 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - apt_pgdata:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d:ro   # sql/ 폴더 전체 연결 — 비어 있어도 DB가 정상 기동
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-apt_user} -d ${POSTGRES_DB:-apt}"]
       interval: 5s
@@ -18,10 +18,24 @@ services:
       retries: 10
 
   metabase:
-    image: metabase/metabase:v0.63.19.1
+    # 공식 이미지에 한국어 문구만 바꿔 씌운 것 (metabase/ 폴더 참고, 처음 실행할 때 1~2분 빌드)
+    build: ./metabase
+    image: apt-metabase:v0.63.19.1-ko
     profiles: ["local", "aws"]
     ports:
       - "3000:3000"
+    environment:
+      # Metabase 자체 설정(질문·대시보드)을 저장하는 곳. 기본은 볼륨 안의 파일 — 컨테이너를 내려도 남는다.
+      # (선택) MB_DB_TYPE=postgres와 MB_DB_* 환경변수를 주면 다른 PostgreSQL에 저장할 수 있다. 실습에서는 건드리지 않는다.
+      MB_DB_TYPE: ${MB_DB_TYPE:-h2}
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_DB_HOST: ${MB_DB_HOST:-}
+      MB_DB_PORT: ${MB_DB_PORT:-5432}
+      MB_DB_DBNAME: ${MB_DB_DBNAME:-metabase}
+      MB_DB_USER: ${MB_DB_USER:-}
+      MB_DB_PASS: ${MB_DB_PASS:-}
+    volumes:
+      - metabase_data:/metabase-data
     depends_on:
       db:
         condition: service_healthy
@@ -29,3 +43,4 @@ services:
 
 volumes:
   apt_pgdata:
+  metabase_data:
