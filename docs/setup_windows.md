@@ -57,7 +57,7 @@ aws configure
 # WSL2 안의 리눅스 파일시스템에 두는 게 성능상 좋다 (Windows 쪽 /mnt/c/... 말고)
 cd ~
 git clone <repo-url>
-cd <repo>/training/code
+cd harness-starter
 ```
 
 ## 6. 다음 단계

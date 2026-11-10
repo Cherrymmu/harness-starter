@@ -15,14 +15,27 @@
 2. 방금 신청한 항목 클릭 → **일반 인증키(Encoding) / 일반 인증키(Decoding)** 두 종류가 표시됨
 3. **Decoding 키를 사용한다** — `requests` 라이브러리로 호출할 때 URL 인코딩을 라이브러리가 자동으로 해주기 때문에, 이미 인코딩된 키(Encoding)를 다시 넣으면 이중 인코딩되어 오류가 난다
 
-## 3. 환경변수로 등록
-키를 코드에 직접 쓰지 않는다 — rules/naming.md와 같은 원칙: 비밀값은 환경변수로 분리한다.
+## 3. 키를 파일에 넣어 두기 (`~/.env.secret`)
+키를 코드나 실습 폴더 안에 쓰지 않는다. 홈 폴더의 `~/.env.secret` 파일 한 곳에만 넣는다.
+실습 폴더 바깥이라 Claude Code가 실습 중에 이 파일을 읽을 일이 없다.
 
 ```bash
-export APT_API_SERVICE_KEY="여기에_Decoding_키_붙여넣기"
+code ~/.env.secret        # VS Code로 새 파일 열기 (code가 없으면 setup_mac.md 6번)
+chmod 600 ~/.env.secret   # 나만 읽을 수 있게
 ```
 
-영구적으로 쓰려면 `~/.zshrc` 또는 `~/.bashrc`에 위 줄을 추가.
+파일 안에는 아래 한 줄만 넣고 저장한다. **따옴표 없이**, `=` 앞뒤에 띄어쓰기 없이 Decoding 키를 그대로 붙인다.
+
+```
+APT_API_SERVICE_KEY=여기에Decoding키를그대로
+```
+
+터미널을 열 때마다 아래 줄로 불러온다. 숫자(키 길이)가 나오면 정상이다.
+
+```bash
+set -a; source ~/.env.secret; set +a
+echo ${#APT_API_SERVICE_KEY}
+```
 
 ## 4. 동작 확인
 ```bash

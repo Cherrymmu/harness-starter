@@ -250,7 +250,12 @@ def main():
         sys.exit(1)
 
     if args.raw:
-        print(fetch_raw_xml(service_key, args.lawd_cd, months[0]))
+        try:
+            print(fetch_raw_xml(service_key, args.lawd_cd, months[0]))
+            sys.stdout.flush()
+        except BrokenPipeError:
+            # `| head`로 앞부분만 볼 때 파이프가 먼저 닫혀도 Traceback 없이 끝낸다
+            os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
         return
 
     conn = None

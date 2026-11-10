@@ -50,13 +50,26 @@ aws configure
 ```
 **Access Key ID/Secret Access Key는 비밀값이므로, Claude Code 세션이나 AI에게 붙여넣지 않는다.** 이 명령은 본인 터미널에서 직접 입력으로 끝낸다. (발급 방법은 `aws_preclass_setup.md` 3~4번 참고)
 
-## 6. 프로젝트 받기
+## 6. VS Code 터미널 명령 `code` 확인
+```bash
+code --version
+```
+`command not found: code`가 나오면:
+1. VS Code에서 ⌘⇧P → `Shell Command: Install 'code' command in PATH` → 터미널을 새로 연다.
+2. 그래도 안 되면(관리자 권한 문제로 자주 막힌다) 아래를 **한 번만** 실행한다. VS Code가 "응용 프로그램" 폴더에 있어야 한다.
+```bash
+echo 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' >> ~/.zshrc
+source ~/.zshrc
+code --version
+```
+
+## 7. 프로젝트 받기
 ```bash
 # 저장소로 공유받았다면
 git clone <repo-url>
-cd <repo>/training/code
-# 폴더로 직접 공유받았다면 해당 경로로 이동
+cd harness-starter
+# zip으로 받았다면: unzip apt-dashboard-starter.zip && cd apt-dashboard-starter
 ```
 
-## 7. 다음 단계
+## 8. 다음 단계
 → `docs/data_portal_service_key.md`(공공데이터 서비스키) 와 `docs/run.md`(실제 실행)로 이동.

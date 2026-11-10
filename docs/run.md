@@ -5,10 +5,11 @@
 
 ## 0. 공통 준비
 ```bash
-cd training/code
+cd apt-dashboard-starter          # GitHub에서 받았다면 cd harness-starter
 python3 -m venv .venv && source .venv/bin/activate   # 가상환경 (선택이지만 권장)
 pip install -r requirements.txt
-export APT_API_SERVICE_KEY="<docs/data_portal_service_key.md에서 발급받은 Decoding 키>"
+# 서비스키는 실습 폴더 바깥 ~/.env.secret에 한 줄로 넣어 둔다 (docs/data_portal_service_key.md 3번)
+set -a; source ~/.env.secret; set +a
 ```
 
 ---

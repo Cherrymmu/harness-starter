@@ -67,7 +67,8 @@ python3 -m venv .venv
 source .venv/bin/activate          # Windows(WSL2 권장): 같은 명령
 pip install -r requirements.txt
 
-export APT_API_SERVICE_KEY="<공공데이터포털 Decoding 키>"
+# 서비스키는 실습 폴더 바깥 ~/.env.secret에 한 줄로 넣어 둔다 (docs/data_portal_service_key.md 3번)
+set -a; source ~/.env.secret; set +a
 python collector.py --deal-ymd 202501 --raw     # resultCode 000이면 정상
 ```
 도구 설치가 아직이면 `docs/setup_mac.md` 또는 `docs/setup_windows.md`부터 진행하세요. DB와 대시보드 실행은 `docs/run.md`에 있습니다.
