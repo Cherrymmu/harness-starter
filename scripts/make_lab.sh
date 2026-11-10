@@ -19,9 +19,11 @@ if [[ -e "$dest" ]]; then
   exit 1
 fi
 
-starter=(collector.py requirements.txt docker-compose.yml .env.local)
+starter=(collector.py requirements.txt docker-compose.yml)
 mkdir -p "$dest/before/sql" "$dest/after/sql"
 for f in "${starter[@]}"; do cp "$src/$f" "$dest/after/"; done
+# 로컬 DB 접속 정보: 저장소에는 양식(.env.local.example)만 있다
+if [[ -f "$src/.env.local" ]]; then cp "$src/.env.local" "$dest/after/"; else cp "$src/.env.local.example" "$dest/after/.env.local"; fi
 
 cp "$src/CLAUDE.md" "$dest/after/"
 mkdir -p "$dest/after/.claude"
