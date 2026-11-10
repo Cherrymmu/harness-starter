@@ -28,7 +28,7 @@ apt-dashboard-starter/
 ├── requirements.txt      # requests, psycopg2-binary
 ├── docker-compose.yml    # db(postgres:16, local 프로필) + metabase(local·aws 프로필)
 ├── metabase/             # Metabase 한국어 문구를 바꾼 이미지 설정 (손대지 않아도 됨)
-├── .env.local            # 로컬 DB 접속 정보 (로컬 컨테이너 전용, 비밀값 아님)
+├── .env.local.example    # 로컬 DB 접속 정보 양식 → cp로 .env.local을 만들어 씀
 ├── .env.aws.example      # AWS 트랙 템플릿 — 복사해서 .env.aws로 만들어 사용
 ├── sql/                  # 비어 있음 — 실습 STEP 6에서 Claude Code가 schema.sql을 만듭니다
 └── docs/
@@ -60,8 +60,9 @@ apt-dashboard-starter/
 
 ## 시작하기
 ```bash
-# 받은 zip을 풀고 이 폴더로 이동
+# 받은 zip을 풀고 이 폴더로 이동 (GitHub에서 받았다면 cd harness-starter)
 cd apt-dashboard-starter
+cp .env.local.example .env.local   # 로컬 DB 접속 정보 (zip에는 이미 들어 있으면 건너뜀)
 
 python3 -m venv .venv
 source .venv/bin/activate          # Windows(WSL2 권장): 같은 명령
