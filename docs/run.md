@@ -18,6 +18,7 @@ set -a; source ~/.env.secret; set +a
 
 ### 1. DB + Metabase 기동
 ```bash
+cp .env.local.example .env.local   # 처음 한 번 (이미 있으면 건너뜀)
 docker compose --env-file .env.local --profile local up -d
 ```
 - `db` 컨테이너가 처음 뜰 때 `sql/schema.sql`이 자동 실행되어 `fact_apt_trade` 테이블이 생성된다.
