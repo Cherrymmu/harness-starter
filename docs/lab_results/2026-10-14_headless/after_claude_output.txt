@@ -1,0 +1,19 @@
+I wrote `sql/schema.sql`, but I haven't run it against a database. Starting a throwaway Postgres container needed your approval, so the test didn't happen. The file creates one table, `fact_apt_trade`, plus two indexes, and the column names follow `.claude/rules/naming.md`.
+
+**Columns**
+- **`trade_id`:** the primary key (TEXT), so `ON CONFLICT (trade_id) DO NOTHING` blocks duplicate loads.
+- **`region_code`:** `VARCHAR(5)`, with a check that it's exactly five digits so leading zeros are kept.
+- **`deal_amount_krw`:** `BIGINT`. Many Gangnam sales are over 2.1 billion won, which is more than an `INTEGER` can hold.
+- **`floor`:** allows negative values for basement floors.
+- **`collected_at`:** defaults to `now()`.
+- **`area_band`:** a column the database fills in automatically from the area: '60㎡ 이하', '60~85㎡' or '85㎡ 초과'. It's there for the second access pattern, so Metabase can group by size band without writing a `CASE` expression.
+
+**Indexes (one per access pattern)**
+1. Average price by legal dong and contract month: `(region_code, legal_dong, deal_date) INCLUDE (deal_amount_krw)`
+2. Price trend by area band: `(area_band, deal_date) INCLUDE (deal_amount_krw)`
+
+The schema matches the `INSERT` in `collector.py` as it stands, so the collector doesn't need changes.
+
+**Decision for you:** `naming.md` defines `trade_id` as legal dong code + contract date + deal amount. Two different apartments in the same dong that sell on the same day for the same price would get the same ID. With `ON CONFLICT DO NOTHING`, the second sale would be silently dropped. `collector.py` doesn't follow the rule as written. It uses the API's serial number when there is one, and otherwise also adds apartment name, area and floor, which is safer. The schema accepts either format because `trade_id` is plain TEXT. I'd update `naming.md` to describe what the collector actually does; I haven't changed it.
+
+To apply the schema: `psql "$DATABASE_URL" -f sql/schema.sql`

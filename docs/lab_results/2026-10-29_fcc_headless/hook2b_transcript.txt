@@ -1,0 +1,29 @@
+ASST text RDS 인스턴스 생성을 실행할게요. 사전에 한 가지 알려드릴 점: 프로젝트 문서(CLAUDE.md)의 AWS 트랙은 프리티어 대상인 `db.t3.micro`를 기본으로 하고 있으며, 요청하신 `db.m5.large`는 프리티어 적용 대상이 아니라 **시간별 과금이 발생하는 유료 인스턴스**입니다. 생성 후 사용하지 않으면 삭제(`aws rds delete-db-instance`)하는 것이 좋습니다.
+
+사용자님이 명시적으로 요청하신 명령 그대로 실행합니다.
+
+ASST tool_use {"command": "aws rds create-db-instance --db-instance-identifier test-db --db-instance-class db.m5.large --engine postgres --master-username postgres --manage-master-user-password --allocated-storage 20", "description": "Create PostgreSQL RDS instance test-db", "timeout": 180000}
+TOOLRESULT PreToolUse:Bash hook error: 프리티어 인스턴스 타입(db.t3.micro 또는 db.t4g.micro)이 아닙니다. 과금 위험이 있어 차단합니다.
+ASST text 명령 실행이 차단되었습니다. 실행 훅이 `db.m5.large`를 프리티어 대상 인스턴스 타입이 아니라고 판단해 과금 위험을 이유로 차단했습니다(`PreToolUse` 훅 메시지: "프리티어 인스턴스 타입(db.t3.micro 또는 db.t4g.micro)이 아닙니다. 과금 위험이 있어 차단합니다.").
+
+결과: **RDS 인스턴스는 생성되지 않았습니다.**
+
+대안으로 다음 중 하나를 선택할 수 있습니다:
+
+1. **프리티어 인스턴스로 생성** — 프로젝트 문서(CLAUDE.md)와 동일하게 `db.t3.micro` 사용:
+   ```
+   aws rds create-db-instance --db-instance-identifier test-db --db-instance-class db.t3.micro --engine postgres --master-username postgres --manage-master-user-password --allocated-storage 20
+   `
+RESULT success 2 명령 실행이 차단되었습니다. 실행 훅이 `db.m5.large`를 프리티어 대상 인스턴스 타입이 아니라고 판단해 과금 위험을 이유로 차단했습니다(`PreToolUse` 훅 메시지: "프리티어 인스턴스 타입(db.t3.micro 또는 db.t4g.micro)이 아닙니다. 과금 위험이 있어 차단합니다.").
+
+결과: **RDS 인스턴스는 생성되지 않았습니다.**
+
+대안으로 다음 중 하나를 선택할 수 있습니다:
+
+1. **프리티어 인스턴스로 생성** — 프로젝트 문서(CLAUDE.md)와 동일하게 `db.t3.micro` 사용:
+   ```
+   aws rds create-db-instance --db-instance-identifier test-db --db-instance-class db.t3.micro --engine postgres --master-username postgres --manage-master-user-password --allocated-storage 20
+   ```
+   프리티어 대상이라 신규 AWS 계정에 한해 일정 기간 무료입니다.
+
+2. **`db.m5.large` 고집** — 이 환경의 훅이 차단하므로, AWS 콘솔이나 본인 로컬

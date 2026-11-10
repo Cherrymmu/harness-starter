@@ -1,3 +1,18 @@
+> **정답본 (`solution` 브랜치)** — 수업에서 직접 만든 하네스 구성 요소의 정답과 강사 실행 결과입니다. 학생용 스타터(`main` 브랜치)에 아래를 더한 것입니다. 내 결과와 나란히 놓고 비교해 보세요.
+> - `CLAUDE.md`, `.claude/`(rules · hooks · agents · settings.json), `sql/schema.sql` — 정답 하네스 (2026-10-29 실데이터로 검증한 trade_id 규칙 포함)
+> - `scripts/score_schema.sh` — Before/After 채점기(11개 항목): `bash scripts/score_schema.sh <내 schema.sql>`
+> - `scripts/metabase_setup.py` — 대시보드 자동 생성(강남구 아파트 매매 대시보드: 월별 평균 거래가, 전용면적대별 평균 거래가 추이, 법정동 필터), `scripts/make_lab.sh` — Before/After 실습 폴더 생성
+> - `docs/slides/lab_slides_with_answers.pptx` — 수업 실습 자료 **정답 포함판** (STEP마다 정답 장 + 붙여 넣기용 전체 파일 장), `docs/slides/lecture_slides.pptx` — 수업 자료
+> - `docs/before_after_lab.md`, `docs/lab_results/` — 강사 사전 실행 결과(2026-10-14 Claude, 2026-10-29 무료 모델)
+>
+> **수업 중에 바뀐 것 (2026-11-10)**
+> - 서비스키: `export` 대신 실습 폴더 바깥 `~/.env.secret`에 한 줄(`APT_API_SERVICE_KEY=키`, 따옴표 없이)로 넣고 `set -a; source ~/.env.secret; set +a`로 불러옵니다 → `docs/data_portal_service_key.md` 3번
+> - `collector.py --raw | head`로 앞부분만 볼 때 나던 BrokenPipeError Traceback을 없앴습니다
+> - Mac에서 `code: command not found`일 때 설정 방법 → `docs/setup_mac.md` 6번
+> - 실습 폴더 구조: `~/harness-lab/before`(빈 폴더, Before) · `~/harness-lab/after/apt-dashboard-starter`(After). 비교는 `cd ~/harness-lab && diff before/sql/schema.sql after/apt-dashboard-starter/sql/schema.sql`
+> - 로컬 DB 접속 정보: 저장소에는 양식 `.env.local.example`만 있습니다. 처음 한 번 `cp .env.local.example .env.local` 후 `docker compose --env-file .env.local --profile local up -d` (zip으로 받았다면 `.env.local`이 이미 있습니다)
+> - 적재 확인: `psql "$DATABASE_URL" -c "SELECT count(*) FROM fact_apt_trade;"` (psql이 없으면 `docker compose exec db psql -U apt_user -d apt -c "…"`), Metabase DB 연결의 호스트는 `localhost`가 아니라 `db`
+
 # 아파트 실거래가 데이터 파이프라인과 대시보드 구현 — 실습 스타터
 
 ## 개요

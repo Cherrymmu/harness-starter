@@ -1,0 +1,20 @@
+ASST text 파일 경로를 확인하지 않고 바로 작성하겠습니다. `sql/` 디렉터리가 없으면 생성 오류가 나면 재시도하겠습니다.
+
+ASST tool_use {"file_path": "/Users/cherry/harness-lab-fcc2/run1/sql/schema.sql", "content": "-- 아파트 매매 실거래가 거래 사실 테이블\n-- 메인 Fact 테이블. 국토교통부 아파트 매매 실거래가 OpenAPI 응답을 정제해 저장한다.\n-- PK trade_id는 거래 1건을 결정론적으로 구분한다:\n--   {법정동코드}-{계약일 YYYYMMDD}-{단지 식별자(aptSeq 또는 apt_name)}-{전용면적}-{층}-{거래금액(원)}\n-- 같은 날 같은 금액의 서로 다른 거래(다른 단지·호수)를 한 행으로 합쳐 유실하지 않기 위해\n-- 단지 식별자를 PK에 포함한다.\n\nCREATE TABLE fact_apt_trade (\n    trade_id VARCHAR PRIMARY KEY,\n    -- 거래 1건을 구분하는 결정론적 ID.\n    -- 형식: {region_code}-{YYYYMMDD}-{aptSeq 또는
+TOOLRESULT File created successfully at: /Users/cherry/harness-lab-fcc2/run1/sql/schema.sql (file state is current in your context — no need to Read it back)
+ASST text `sql/schema.sql`에 `fact_apt_trade` 테이블 스키마를 저장했습니다.
+
+설계 포인트 (`.claude/rules/naming.md` 준수):
+
+- **테이블**: `fact_apt_trade` (Fact 테이블)
+- **PK**: `trade_id VARCHAR PRIMARY KEY` — `{법정동코드}-{계약일 YYYYMMDD}-{단지 식별자}-{전용면적}-{층}-{거래금액(원)}` 형식. 단지 식별자(`aptSeq` 없으면 `apt_name`)를 포함해 같은 날 같은 금액의 서로 다른 거래가 유실되지 않도록 함
+- **컬럼**: `region_code` VARCHAR(5) 문자열(앞자리 0 보존), `deal_amount_krw` BIGINT(만원→원 변환), `deal_date` DATE, `area_band`는 `GENERATED ALWAYS AS … STORED` 생성 컬럼(`le_60` / `60_85` / `gt_85`), `is_cancelled
+RESULT success 2 `sql/schema.sql`에 `fact_apt_trade` 테이블 스키마를 저장했습니다.
+
+설계 포인트 (`.claude/rules/naming.md` 준수):
+
+- **테이블**: `fact_apt_trade` (Fact 테이블)
+- **PK**: `trade_id VARCHAR PRIMARY KEY` — `{법정동코드}-{계약일 YYYYMMDD}-{단지 식별자}-{전용면적}-{층}-{거래금액(원)}` 형식. 단지 식별자(`aptSeq` 없으면 `apt_name`)를 포함해 같은 날 같은 금액의 서로 다른 거래가 유실되지 않도록 함
+- **컬럼**: `region_code` VARCHAR(5) 문자열(앞자리 0 보존), `deal_amount_krw` BIGINT(만원→원 변환), `deal_date` DATE, `area_band`는 `GENERATED ALWAYS AS … STORED` 생성 컬럼(`le_60` / `60_85` / `gt_85`), `is_cancelled` BOOLEAN, `collected_at` TIMESTAMPTZ
+- **인덱스**: Access Pattern별 1개씩
+  1. `(region_code, deal_date)`

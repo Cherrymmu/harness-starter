@@ -1,0 +1,37 @@
+ASST text 아파트 매매 실거래가 데이터 테이블 설계를 위해 먼저 현재 디렉터리 구조를 확인하겠습니다.
+
+ASST tool_use {"command": "ls -la /Users/cherry/harness-lab-fcc/before && echo \"---\" && ls -la /Users/cherry/harness-lab-fcc/before/sql 2>/dev/null || echo \"sql 디렉터리 없음\"", "description": "작업 디렉터리와 sql 하위 경로 확인"}
+TOOLRESULT total 0
+drwxr-xr-x@  3 cherry  staff   96 Oct 29 00:12 .
+drwxr-xr-x@ 17 cherry  staff  544 Oct 29 21:40 ..
+drwxr-xr-x@  2 cherry  staff   64 Oct 29 00:12 sql
+---
+total 0
+drwxr-xr-x@ 2 cherry  staff  64 Oct 29 00:12 .
+drwxr-xr-x@ 3 cherry  staff  96 Oct 29 00:12 ..
+ASST text `sql/` 디렉터리가 이미 존재하고 비어 있습니다. `sql/schema.sql` 파일을 생성하겠습니다.
+
+ASST tool_use {"file_path": "/Users/cherry/harness-lab-fcc/before/sql/schema.sql", "content": "-- 아파트 매매 실거래가 데이터 테이블\n--\n-- 국토교통부 실거래가 공개시스템의 아파트 매매 실거래가 자료를 저장하기 위한 스키마입니다.\n-- PostgreSQL 기준입니다.\n\nCREATE TABLE IF NOT EXISTS apartment_sales_transaction (\n    id BIGSERIAL PRIMARY KEY,\n\n    -- 거래 기본 정보\n    deal_date        DATE        NOT NULL,  -- 거래일자 (YYYY-MM-DD)\n    region_code      VARCHAR(10) NOT NULL,  -- 지역코드 (시도 + 시군구 코드)\n    sigungu          VARCHAR(50),           -- 시군구명\n    legal_dong     
+TOOLRESULT File created successfully at: /Users/cherry/harness-lab-fcc/before/sql/schema.sql (file state is current in your context — no need to Read it back)
+ASST text `sql/schema.sql` 파일을 생성했습니다. 내용 요약입니다.
+
+**테이블: `apartment_sales_transaction`**
+
+| 컬럼 그룹 | 주요 컬럼 | 설명 |
+|---|---|---|
+| 거래 기본 | `deal_date`, `region_code`, `sigungu`, `legal_dong`, `apartment_name` | 거래일자, 지역코드, 시군구, 법정동, 아파트명 |
+| 주택 정보 | `exclusive_area`, `lot_number`, `floor`, `construction_year` | 전용면적(㎡), 지번, 층, 건축년도 |
+| 도로명 주소 | `road_name`, `road_main_code`, `road_sub_code`, `road_sigungu_code`, `road_legal_dong_code` | 도로명 주소 상세 코드 |
+| 거래 금액/유형 | `deal_price` (원), `deal_type` | 매매가격, 거래유형 
+RESULT success 3 `sql/schema.sql` 파일을 생성했습니다. 내용 요약입니다.
+
+**테이블: `apartment_sales_transaction`**
+
+| 컬럼 그룹 | 주요 컬럼 | 설명 |
+|---|---|---|
+| 거래 기본 | `deal_date`, `region_code`, `sigungu`, `legal_dong`, `apartment_name` | 거래일자, 지역코드, 시군구, 법정동, 아파트명 |
+| 주택 정보 | `exclusive_area`, `lot_number`, `floor`, `construction_year` | 전용면적(㎡), 지번, 층, 건축년도 |
+| 도로명 주소 | `road_name`, `road_main_code`, `road_sub_code`, `road_sigungu_code`, `road_legal_dong_code` | 도로명 주소 상세 코드 |
+| 거래 금액/유형 | `deal_price` (원), `deal_type` | 매매가격, 거래유형 |
+| 해제 정보 | `cancellation_date`, `is_cancelled` | 계약 해제 여부 및 발생일 |
+| 중개사 | `agency_location` | 중개사소재
