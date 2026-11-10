@@ -10,6 +10,7 @@
 > - `collector.py --raw | head`로 앞부분만 볼 때 나던 BrokenPipeError Traceback을 없앴습니다
 > - Mac에서 `code: command not found`일 때 설정 방법 → `docs/setup_mac.md` 6번
 > - 실습 폴더 구조: `~/harness-lab/before`(빈 폴더, Before) · `~/harness-lab/after/apt-dashboard-starter`(After). 비교는 `cd ~/harness-lab && diff before/sql/schema.sql after/apt-dashboard-starter/sql/schema.sql`
+> - 로컬 DB 접속 정보: 저장소에는 양식 `.env.local.example`만 있습니다. 처음 한 번 `cp .env.local.example .env.local` 후 `docker compose --env-file .env.local --profile local up -d` (zip으로 받았다면 `.env.local`이 이미 있습니다)
 > - 적재 확인: `psql "$DATABASE_URL" -c "SELECT count(*) FROM fact_apt_trade;"` (psql이 없으면 `docker compose exec db psql -U apt_user -d apt -c "…"`), Metabase DB 연결의 호스트는 `localhost`가 아니라 `db`
 
 # 아파트 실거래가 데이터 파이프라인과 대시보드 구현 — 실습 스타터
